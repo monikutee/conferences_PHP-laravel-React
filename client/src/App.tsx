@@ -1,22 +1,39 @@
 import React from "react";
-import Register from "./components/register";
-import Login from "./components/login";
+import { ContextProvider, Context } from "./contextStore";
+import { Navbar } from "./components/Navbar/Navbar";
+import { Sidebar } from "./components/Sidebar/Sidebar";
+import { WeekLayout } from "./components/WeekLayout/WeekLayout";
+import { MonthLayout } from "./components/MonthLayout/MonthLayout";
+import { EventCreationModal } from "./components/EventCreationModal/EventCreationModal";
 
-function App() {
+function Calendar() {
+    const { isWeekLayout, modalVisibility } = React.useContext(Context);
     return (
-        <div
-            className="App
-"
-        >
-            <h1>Authentication Demo</h1>
-            <div>
-                <Register />
+        <>
+            <Navbar />
+            <div className="wrap">
+                <Sidebar />
+                <div className="container">
+                    {isWeekLayout ? <WeekLayout /> : null}
+                    {!isWeekLayout ? <MonthLayout /> : null}
+                </div>
+                {modalVisibility ? <EventCreationModal /> : null}
             </div>
-            <div>
-                <Login />
-            </div>
-        </div>
+        </>
     );
 }
+
+const App: React.FC<{ date: Date }> = ({ date }) => {
+    return (
+        <ContextProvider
+            initialDisplayDate={date}
+            initialModalVisibility={false}
+            initialIsWeekLayout={true}
+            initialEventsArr={[]}
+        >
+            <Calendar />
+        </ContextProvider>
+    );
+};
 
 export default App;

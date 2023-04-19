@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Quicksand', sans-serif;
+  color: rgb(82, 82, 82);
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex: 4;
+  overflow: hidden;
+  height: calc(100vh - 64px);
+}
+
+.fa-angle-left,
+.fa-angle-right {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: rgb(150, 195, 248);
+  border-radius: 50px;
+  color: black;
+}
+
+
+
+/* week layout starts here*/
+.week_layout {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.week_header {
+  display: flex;
+  flex-direction: row;
+  height: 84px;
+  background-color: white;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  /* border-bottom: 1px solid rgb(184, 184, 184); */
+}
+.layout_weekdays {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  z-index: 2;
+  background: white;
+  border-bottom: 1px solid rgb(184, 184, 184);
+}
+.timezone {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 21px;
+  height: 100%;
+  font-size: 11px;
+}
+.layout_day-date {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  width: calc(100% / 7);
+  min-width: 81px;
+}
+
+.layout_day-date h2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+.layout_days {
+  font-weight: normal;
+  font-size: 14px;
+}
+.layout_date {
+  font-weight: normal;
+  font-size: 18px;
+  background-color: transparent;
+  border: 0px;
+}
+.layout_date_box:hover {
+  background-color: rgb(180, 180, 180);
+  border-radius: 50px;
+}
+.layout_date_box.today button {
+  background-color: transparent;
+  border: 0px;
+}
+.layout_date_box.today {
+  background-color: rgb(65, 127, 242);
+  border-radius: 50px;
+}
+.layout_date_box {
+  height: 35px;
+  margin-top: 4px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout_stick {
+  border-left: 1px solid rgb(184, 184, 184);
+  height: 18px;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+li {
+  height: 64px;
+  display: flex;
+  align-items: flex-end;
+}
+.layout_table {
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+  /* overflow-y: scroll; */
+}
+table.week_table-layout td {
+  position: relative;
+  border-left: 1px solid rgb(184, 184, 184);
+  border-top: 1px solid rgb(184, 184, 184);
+  width: calc(100% / 7);
+  min-width: 78px;
+  height: 61px;
+}
+tr:nth-child(1) td {
+  border-top-color: transparent;
+}
+table.week_table-layout {
+  border-spacing: 0px;
+  /* table-layout: fixed; */
+  height: 100%;
+  width: 100%;
+}
+
+.week_table {
+  width: 100%;
+}
+
+.timeline {
+  padding-top: 6px;
+  padding-right: 6px;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-right: 15px;
+  min-width: 41.61px;
+  font-size: 11px;
+  position: sticky;
+  left: 0;
+  background-color: white;
+  z-index: 2;
+}
+
+.week_table-events_list {
+  display: flex;
+  flex-direction: row;
+}
+.week_table-event {
+  display: flex;
+  flex-direction: column;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 3px;
+  position: absolute;
+  background-color: rgb(55, 107, 204);
+  border: 1px solid rgb(189, 207, 255);
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+}
+
+.event_hover {
+  z-index: 1;
+  min-width: 10px;
+  min-height: 10px;
+}
+.event_hover:hover {
+  background: rgba(55, 107, 204, 0.85);
+  min-height: 30px;
+  min-width: 80px;
+  z-index: 10;
+}
+
+/* week layout ends here */
+
+/* create event modal start */
+.create-event_modal {
+  display: grid;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 29%);
+}
+.create-event_modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  background-color: white;
+  height: 56%;
+  margin: 12% auto;
+}
+
+.create-event_modal-close {
+  width: 100%;
+  height: 25px;
+  display: flex;
+  justify-content: flex-end;
+  background-color: whitesmoke;
+}
+.create-event_modal-closeBtn {
+  background: transparent;
+  border: 0;
+  color: #5f6368;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.create-event_modal-event {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.create-event_modal-event-title {
+  margin-top: 25px;
+  margin-left: 45px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.error {
+  color: red;
+  font-size: 14px;
+  display: block;
+}
+#title-error-message {
+  margin-top: 2px;
+  font-size: 14px;
+}
+#date-error-message {
+  margin-left: 43px;
+  margin-bottom: 5px;
+}
+.create-event_modal-event-titleInput {
+  border: 0;
+  border-bottom: 1px solid #5f6368;
+}
+.create-event_modal-event-date {
+  margin-top: 40px;
+  margin-left: 45px;
+  margin-right: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.create-event_modal-event-date input {
+  border: 1px solid #5f6368;
+  border-radius: 6px;
+  background-color: transparent;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  width: 50px;
+  margin-left: -15px;
+  margin-right: -28px;
+}
+
+.create-event_modal-event-date-start {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.create-event_modal-event-date-end {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.create-event_modal-event-date-end label {
+  margin-right: 6px;
+}
+
+.create-event_modal-event-description {
+  margin-top: 20px;
+  margin-left: 45px;
+  margin-right: 20px;
+}
+textarea {
+  height: 151px;
+  width: 90%;
+  resize: none;
+}
+
+.create-event_modal-save {
+  width: 100%;
+  height: 60px;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+.create-event_modal-saveBtn {
+  border: 1px solid;
+  background-color: transparent;
+  border-radius: 8px;
+  color: #5f6368;
+  margin-right: 20px;
+  cursor: pointer;
+}
+input:focus {
+  outline: none;
+}
+
+
+
+@media only screen and (max-width: 650px) {
+  .navbar {
+    padding-left: 10px;
+  }
+  .wrap {
+    flex-direction: column;
+  }
+
+  .create-event_modal-content {
+    width: 300px;
+  }
+  .create-event_modal-event-date {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

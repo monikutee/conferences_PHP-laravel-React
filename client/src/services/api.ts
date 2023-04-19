@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000/api"; // Replace with the domain where your Laravel API is running
+const API_BASE_URL = "http://localhost:8000/api";
 
 const apiFetch = async (url: string, options = {}) => {
     const token = localStorage.getItem("access_token");
