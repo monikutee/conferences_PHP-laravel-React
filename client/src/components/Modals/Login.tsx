@@ -34,7 +34,6 @@ export const Login: React.FC = () => {
                     method: "POST",
                     body: JSON.stringify(values),
                 }).then((response) => {
-                    console.log(response);
                     if (response.error) {
                         alert(response.error);
                         closeForm();
