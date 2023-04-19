@@ -11,8 +11,9 @@ class ConferencesTableSeeder extends Seeder
     {
         Conferences::create([
             'title' => 'Sample Conference',
-            'summary' => 'This is a sample conference',
-            'date' => '2023-05-01 10:00:00',
+            'description' => 'This is a sample conference',
+            'start_date' => '2023-05-01 10:00:00',
+            'end_date' => '2023-05-01 12:00:00',
             'address' => '123 Conference St, City, Country',
             'participant_count' => 100,
         ]);

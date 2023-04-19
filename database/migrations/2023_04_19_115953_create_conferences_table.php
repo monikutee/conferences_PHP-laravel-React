@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('conferences', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('summary');
-            $table->dateTime('date');
+            $table->text('description');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->string('address');
             $table->unsignedInteger('participant_count')->nullable();
             $table->timestamps();

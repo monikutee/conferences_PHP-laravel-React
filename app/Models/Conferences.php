@@ -11,11 +11,10 @@ class Conferences extends Model
 
     protected $fillable = [
         'title',
-        'summary',
-        'date',
+        'description',
+        'start_date',
+        'end_date',
         'address',
         'participant_count',
-        'created_at',
-        'updated_at',
     ];
 }
