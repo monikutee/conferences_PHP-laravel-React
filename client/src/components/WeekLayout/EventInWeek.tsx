@@ -6,6 +6,7 @@ import {
     sortEventsAndCountNeighbours,
     getEventPosition,
 } from "../../utils/eventPlacing";
+import { Context } from "../../contextStore";
 
 interface EventComponentProps {
     event: CalendarEvent;
@@ -18,6 +19,8 @@ export const EventInWeek: React.FC<EventComponentProps> = ({
     events,
     date,
 }) => {
+    const { setModalVisibility, setSelectedEvent } = React.useContext(Context);
+
     let indexOfevent = 0;
     const dayEvents = getEventsByDay(date, events);
     sortEventsAndCountNeighbours(dayEvents).forEach((dayEvent) => {
@@ -48,6 +51,10 @@ export const EventInWeek: React.FC<EventComponentProps> = ({
                 left: position.left + "%",
                 bottom: position.bottom + "%",
                 width: position.width + "%",
+            }}
+            onClick={() => {
+                setSelectedEvent(event);
+                setModalVisibility(true);
             }}
         >
             <span className="week_table-event__title" data-title="event_title">

@@ -1,5 +1,6 @@
 import * as React from "react";
 import apiFetch from "./services/api";
+import { CalendarEvent } from "./types";
 
 export const Context = React.createContext({
     isWeekLayout: true,
@@ -18,9 +19,13 @@ export const Context = React.createContext({
     setEvents: (_events: any) => {
         return;
     },
+    selectedEvent: null as unknown as CalendarEvent,
+    setSelectedEvent: (_event: any) => {
+        return;
+    },
 });
 
-interface ContexProps {
+interface ContextProps {
     children: React.ReactNode;
     initialDisplayDate: Date;
     initialModalVisibility: boolean;
@@ -28,7 +33,7 @@ interface ContexProps {
     initialEventsArr: [];
 }
 
-export const ContextProvider: React.FC<ContexProps> = ({
+export const ContextProvider: React.FC<ContextProps> = ({
     children,
     initialDisplayDate,
     initialModalVisibility,
@@ -41,12 +46,14 @@ export const ContextProvider: React.FC<ContexProps> = ({
         initialModalVisibility
     );
     const [isWeekLayout, setWeekLayout] = React.useState(initialIsWeekLayout);
+    const [selectedEvent, setSelectedEvent] = React.useState<CalendarEvent>(
+        null as unknown as CalendarEvent
+    );
 
     React.useEffect(() => {
         apiFetch("/conferences", {
             method: "GET",
         }).then((res: any) => {
-            console.log(res, "AS");
             setEvents(res);
         });
     }, [modalVisibility]);
@@ -54,6 +61,8 @@ export const ContextProvider: React.FC<ContexProps> = ({
     return (
         <Context.Provider
             value={{
+                selectedEvent,
+                setSelectedEvent,
                 isWeekLayout,
                 setWeekLayout,
                 modalVisibility,

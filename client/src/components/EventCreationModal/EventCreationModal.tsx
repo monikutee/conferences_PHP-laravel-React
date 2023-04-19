@@ -3,21 +3,36 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import moment from "moment";
 import { Context } from "../../contextStore";
-import { SaveButton, CloseButton } from "./ModalButtons";
+import {
+    SaveButton,
+    CloseButton,
+    UpdateButton,
+    DeleteButton,
+} from "./ModalButtons";
 import {
     getYearMonthDayString,
     getTimeHourString,
 } from "../../utils/dateHelper";
 import apiFetch from "../../services/api";
+import { CalendarEvent } from "../../types";
 
 export const EventCreationModal: React.FC = () => {
-    const { setModalVisibility, displayDate, setDisplayDate } =
+    const { setModalVisibility, displayDate, setDisplayDate, selectedEvent } =
         React.useContext(Context);
 
     const currentDate = new Date(displayDate);
-    const initialEndTime = getTimeHourString(
-        new Date(currentDate.setHours(currentDate.getHours() + 1))
-    );
+    const initialEndTime = selectedEvent
+        ? getTimeHourString(
+              new Date(
+                  new Date(selectedEvent.end_date).setHours(
+                      new Date(selectedEvent.end_date).getHours() + 1
+                  )
+              )
+          )
+        : getTimeHourString(
+              new Date(currentDate.setHours(currentDate.getHours() + 1))
+          );
+
     const validationSchema = yup.object({
         title: yup.string().required("Title is required"),
         description: yup.string().required("Title is required"),
@@ -39,16 +54,23 @@ export const EventCreationModal: React.FC = () => {
 
     const formik = useFormik({
         initialValues: {
-            title: "",
-            description: "",
-            address: "",
-            start_date: getYearMonthDayString(displayDate),
-            start_time: getTimeHourString(displayDate),
+            title: selectedEvent ? selectedEvent.title : "",
+            description: selectedEvent ? selectedEvent.description : "",
+            address: selectedEvent ? selectedEvent.address : "",
+            start_date: selectedEvent
+                ? getYearMonthDayString(new Date(selectedEvent.start_date))
+                : getYearMonthDayString(displayDate),
+            start_time: selectedEvent
+                ? getTimeHourString(new Date(selectedEvent.start_date))
+                : getTimeHourString(displayDate),
             end_time: initialEndTime,
-            participant_count: "",
+            participant_count: selectedEvent
+                ? selectedEvent.participant_count ?? ""
+                : "",
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
+            console.log(values);
             const event = {
                 title: values.title,
                 description: values.description,
@@ -60,25 +82,40 @@ export const EventCreationModal: React.FC = () => {
                 address: values.address,
             };
 
+            // eslint-disable-next-line
             Date.prototype.toJSON = function () {
                 return moment(this).format();
             };
-            apiFetch("/conferences", {
-                method: "POST",
-                body: JSON.stringify(event),
-            }).then((res) => console.log(res, "DEBUG"));
 
-            // if (response) {
-            //     closeForm();
-            // } else {
-            //     alert("Error creating conference");
-            // }
+            if (selectedEvent) {
+                apiFetch(`/conferences/${selectedEvent.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(event),
+                });
+            } else {
+                apiFetch("/conferences", {
+                    method: "POST",
+                    body: JSON.stringify(event),
+                });
+            }
+
+            closeForm();
         },
     });
 
     function closeForm() {
         setModalVisibility(false);
     }
+
+    const deleteEvent = async (event: CalendarEvent) => {
+        await apiFetch(`/conferences/${event.id}`, {
+            method: "DELETE",
+        });
+        closeForm();
+    };
 
     return (
         <div className="create-event_modal" id="create-event-modal">
@@ -220,7 +257,15 @@ export const EventCreationModal: React.FC = () => {
                                 Something is wrong with dates, mate
                             </span>
                         ))}
-                <SaveButton />
+                <nav className="create-event_modal-save">
+                    <SaveButton />
+                    {selectedEvent && <UpdateButton />}
+                    {selectedEvent && (
+                        <DeleteButton
+                            handleClick={() => deleteEvent(selectedEvent)}
+                        />
+                    )}
+                </nav>
             </form>
         </div>
     );
