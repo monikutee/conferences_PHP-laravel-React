@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ContentNavigation } from "./ContentNavigation";
 import { LayoutSelector } from "./LayoutSelector";
-import { StyledNav, StyledLabel } from "./Navbar.styled";
+import { StyledNav, StyledLabel, AuthBtn } from "./Navbar.styled";
 import { Context } from "../../contextStore";
 
 export const Navbar: React.FC = () => {
@@ -12,9 +12,11 @@ export const Navbar: React.FC = () => {
             <ContentNavigation />
             <LayoutSelector />
             {user ? (
-                <button onClick={logout}>Logout</button>
+                <AuthBtn onClick={logout}>Logout</AuthBtn>
             ) : (
-                <button onClick={() => setLoginVisibility(true)}>Login</button>
+                <AuthBtn onClick={() => setLoginVisibility(true)}>
+                    Login
+                </AuthBtn>
             )}
         </StyledNav>
     );

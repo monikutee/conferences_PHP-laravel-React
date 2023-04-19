@@ -209,23 +209,9 @@ table.week_table-layout {
 /* week layout ends here */
 
 /* create event modal start */
-.create-event_modal {
-  display: grid;
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0 0 0 / 29%);
-}
-.create-event_modal-content {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  background-color: white;
-  height: 56%;
-  margin: 12% auto;
-}
+
+
+
 
 .create-event_modal-close {
   width: 100%;

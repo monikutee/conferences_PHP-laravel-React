@@ -2,7 +2,7 @@ import * as React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import moment from "moment";
-import { Context } from "../../contextStore";
+import { Context } from "../../../contextStore";
 import {
     SaveButton,
     CloseButton,
@@ -12,9 +12,10 @@ import {
 import {
     getYearMonthDayString,
     getTimeHourString,
-} from "../../utils/dateHelper";
-import apiFetch from "../../services/api";
-import { CalendarEvent } from "../../types";
+} from "../../../utils/dateHelper";
+import apiFetch from "../../../services/api";
+import { CalendarEvent } from "../../../types";
+import { Backdrop, StyledForm } from "../Modals.styled";
 
 export const EventCreationModal: React.FC = () => {
     const {
@@ -24,6 +25,8 @@ export const EventCreationModal: React.FC = () => {
         selectedEvent,
         user,
     } = React.useContext(Context);
+
+    const [popup, setPopup] = React.useState(false);
 
     const isDisabled = !user;
 
@@ -77,7 +80,6 @@ export const EventCreationModal: React.FC = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            console.log(values);
             const event = {
                 title: values.title,
                 description: values.description,
@@ -125,12 +127,14 @@ export const EventCreationModal: React.FC = () => {
     };
 
     return (
-        <div className="create-event_modal" id="create-event-modal">
-            <form
+        <Backdrop>
+            <StyledForm
                 className="create-event_modal-content"
                 name="create-event-form"
                 id="event-form"
                 onSubmit={formik.handleSubmit}
+                width="500px"
+                height="56%"
             >
                 <CloseButton onClick={closeForm} />
                 <div className="create-event_modal-event">
@@ -140,6 +144,7 @@ export const EventCreationModal: React.FC = () => {
                             className="create-event_modal-event-titleInput"
                             id="title"
                             name="title"
+                            placeholder="Title"
                             value={formik.values.title}
                             onChange={formik.handleChange}
                             disabled={isDisabled}
@@ -162,6 +167,7 @@ export const EventCreationModal: React.FC = () => {
                             className="create-event_modal-event-titleInput"
                             id="address"
                             name="address"
+                            placeholder="Address"
                             value={formik.values.address}
                             onChange={formik.handleChange}
                         />
@@ -252,15 +258,18 @@ export const EventCreationModal: React.FC = () => {
                                 </span>
                             )}
                     </div>
-                    <input
-                        type="number"
-                        className="create-event_modal-event-titleInput"
-                        id="participant_count"
-                        name="participant_count"
-                        value={formik.values.participant_count}
-                        onChange={formik.handleChange}
-                        disabled={isDisabled}
-                    />
+                    <div className="create-event_modal-event-title">
+                        <input
+                            type="number"
+                            className="create-event_modal-event-titleInput"
+                            id="participant_count"
+                            name="participant_count"
+                            placeholder="Participant count"
+                            value={formik.values.participant_count}
+                            onChange={formik.handleChange}
+                            disabled={isDisabled}
+                        />
+                    </div>
                 </div>
                 {(formik.touched.start_date &&
                     Boolean(formik.errors.start_date)) ||
@@ -277,13 +286,34 @@ export const EventCreationModal: React.FC = () => {
                         <SaveButton />
                         {selectedEvent && <UpdateButton />}
                         {selectedEvent && (
-                            <DeleteButton
-                                handleClick={() => deleteEvent(selectedEvent)}
-                            />
+                            <DeleteButton handleClick={() => setPopup(true)} />
                         )}
                     </nav>
                 )}
-            </form>
-        </div>
+            </StyledForm>
+
+            {popup && selectedEvent && (
+                <div className="create-event_modal">
+                    <div className="popup">
+                        are u sure?
+                        <button
+                            className="create-event_modal-saveBtn"
+                            onClick={() => {
+                                setPopup(false);
+                                deleteEvent(selectedEvent);
+                            }}
+                        >
+                            proceed
+                        </button>
+                        <button
+                            className="create-event_modal-saveBtn"
+                            onClick={() => setPopup(false)}
+                        >
+                            cancel
+                        </button>
+                    </div>
+                </div>
+            )}
+        </Backdrop>
     );
 };

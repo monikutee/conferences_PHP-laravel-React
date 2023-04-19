@@ -4,8 +4,8 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { WeekLayout } from "./components/WeekLayout/WeekLayout";
 import { MonthLayout } from "./components/MonthLayout/MonthLayout";
-import { EventCreationModal } from "./components/EventCreationModal/EventCreationModal";
-import { Login } from "./components/Login";
+import { EventCreationModal } from "./components/Modals/EventCreationModal/EventCreationModal";
+import { Login } from "./components/Modals/Login";
 
 function Calendar() {
     const { isWeekLayout, modalVisibility, loginVisibility } =

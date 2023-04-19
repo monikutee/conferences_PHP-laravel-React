@@ -102,3 +102,14 @@ export const TableSelector = styled.select`
     color: rgb(82, 82, 82);
     cursor: pointer;
 `;
+
+export const AuthBtn = styled.button`
+    border-radius: 5px;
+    background-color: white;
+    border: 2px solid rgb(219, 219, 219);
+    height: 35px;
+    width: 60px;
+    color: rgb(82, 82, 82);
+    cursor: pointer;
+    margin: auto;
+`;
