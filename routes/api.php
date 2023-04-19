@@ -12,8 +12,21 @@ Route::get('/example', function (Request $request) {
     return response()->json(['message' => 'Hello from Laravel API!']);
 });
 
-Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->get('/user', [AuthController::class, 'user']);
 
 Route::apiResource('conferences', ConferenceController::class);
+
+Route::get('translations/{locale}', function ($locale) {
+    $path = resource_path("lang/{$locale}");
+    $files = glob("{$path}/*.php");
+
+    $translations = [];
+
+    foreach ($files as $file) {
+        $key = basename($file, '.php');
+        $translations[$key] = require $file;
+    }
+
+    return response()->json($translations);
+});
