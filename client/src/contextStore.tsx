@@ -23,6 +23,17 @@ export const Context = React.createContext({
     setSelectedEvent: (_event: any) => {
         return;
     },
+    user: "",
+    setUser: (_user: string) => {
+        return;
+    },
+    loginVisibility: false,
+    setLoginVisibility: (_flag: boolean) => {
+        return;
+    },
+    logout: () => {
+        return;
+    },
 });
 
 interface ContextProps {
@@ -45,22 +56,36 @@ export const ContextProvider: React.FC<ContextProps> = ({
     const [modalVisibility, setModalVisibility] = React.useState(
         initialModalVisibility
     );
+    const [loginVisibility, setLoginVisibility] = React.useState(false);
     const [isWeekLayout, setWeekLayout] = React.useState(initialIsWeekLayout);
     const [selectedEvent, setSelectedEvent] = React.useState<CalendarEvent>(
         null as unknown as CalendarEvent
     );
+    const [user, setUser] = React.useState<string>("");
 
     React.useEffect(() => {
-        apiFetch("/conferences", {
-            method: "GET",
-        }).then((res: any) => {
-            setEvents(res);
-        });
+        setUser(localStorage.getItem("access_token") ?? "");
+    }, []);
+
+    React.useEffect(() => {
+        if (modalVisibility === false)
+            apiFetch("/conferences", {
+                method: "GET",
+            }).then((res: any) => {
+                setEvents(res);
+            });
     }, [modalVisibility]);
+
+    const logout = () => {
+        localStorage.removeItem("access_token");
+        setUser("");
+    };
 
     return (
         <Context.Provider
             value={{
+                user,
+                setUser,
                 selectedEvent,
                 setSelectedEvent,
                 isWeekLayout,
@@ -71,6 +96,9 @@ export const ContextProvider: React.FC<ContextProps> = ({
                 setDisplayDate,
                 events,
                 setEvents,
+                loginVisibility,
+                setLoginVisibility,
+                logout,
             }}
         >
             {children}

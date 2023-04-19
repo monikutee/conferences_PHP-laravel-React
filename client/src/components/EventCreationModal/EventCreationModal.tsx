@@ -8,7 +8,7 @@ import {
     CloseButton,
     UpdateButton,
     DeleteButton,
-} from "./ModalButtons";
+} from "../ModalButtons";
 import {
     getYearMonthDayString,
     getTimeHourString,
@@ -17,8 +17,15 @@ import apiFetch from "../../services/api";
 import { CalendarEvent } from "../../types";
 
 export const EventCreationModal: React.FC = () => {
-    const { setModalVisibility, displayDate, setDisplayDate, selectedEvent } =
-        React.useContext(Context);
+    const {
+        setModalVisibility,
+        displayDate,
+        setDisplayDate,
+        selectedEvent,
+        user,
+    } = React.useContext(Context);
+
+    const isDisabled = !user;
 
     const currentDate = new Date(displayDate);
     const initialEndTime = selectedEvent
@@ -135,6 +142,7 @@ export const EventCreationModal: React.FC = () => {
                             name="title"
                             value={formik.values.title}
                             onChange={formik.handleChange}
+                            disabled={isDisabled}
                         />
                         {formik.touched.title &&
                             Boolean(formik.errors.title) && (
@@ -149,6 +157,7 @@ export const EventCreationModal: React.FC = () => {
                     </div>
                     <div className="create-event_modal-event-title">
                         <input
+                            disabled={isDisabled}
                             type="text"
                             className="create-event_modal-event-titleInput"
                             id="address"
@@ -184,6 +193,7 @@ export const EventCreationModal: React.FC = () => {
                                     formik.handleChange(e);
                                     setDisplayDate(new Date(e.target.value));
                                 }}
+                                disabled={isDisabled}
                             />
                             <input
                                 type="time"
@@ -192,6 +202,7 @@ export const EventCreationModal: React.FC = () => {
                                 name="start_time"
                                 value={formik.values.start_time}
                                 onChange={formik.handleChange}
+                                disabled={isDisabled}
                             />
                         </div>
                         <div className={`create-event_modal-event-date-end`}>
@@ -208,6 +219,7 @@ export const EventCreationModal: React.FC = () => {
                                     formik.handleChange(e);
                                     setDisplayDate(new Date(e.target.value));
                                 }}
+                                disabled={isDisabled}
                             />
                             <input
                                 type="time"
@@ -216,6 +228,7 @@ export const EventCreationModal: React.FC = () => {
                                 name="end_time"
                                 value={formik.values.end_time}
                                 onChange={formik.handleChange}
+                                disabled={isDisabled}
                             />
                         </div>
                     </div>
@@ -226,6 +239,7 @@ export const EventCreationModal: React.FC = () => {
                             name="description"
                             value={formik.values.description}
                             onChange={formik.handleChange}
+                            disabled={isDisabled}
                         />
                         {formik.touched.description &&
                             Boolean(formik.errors.description) && (
@@ -245,6 +259,7 @@ export const EventCreationModal: React.FC = () => {
                         name="participant_count"
                         value={formik.values.participant_count}
                         onChange={formik.handleChange}
+                        disabled={isDisabled}
                     />
                 </div>
                 {(formik.touched.start_date &&
@@ -257,15 +272,17 @@ export const EventCreationModal: React.FC = () => {
                                 Something is wrong with dates, mate
                             </span>
                         ))}
-                <nav className="create-event_modal-save">
-                    <SaveButton />
-                    {selectedEvent && <UpdateButton />}
-                    {selectedEvent && (
-                        <DeleteButton
-                            handleClick={() => deleteEvent(selectedEvent)}
-                        />
-                    )}
-                </nav>
+                {isDisabled ? null : (
+                    <nav className="create-event_modal-save">
+                        <SaveButton />
+                        {selectedEvent && <UpdateButton />}
+                        {selectedEvent && (
+                            <DeleteButton
+                                handleClick={() => deleteEvent(selectedEvent)}
+                            />
+                        )}
+                    </nav>
+                )}
             </form>
         </div>
     );

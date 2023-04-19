@@ -2,6 +2,7 @@ import * as React from "react";
 import { CalendarEvent } from "./../../types";
 import { getEventTime } from "../../utils/layoutHelper";
 import { ShowMoreBtn, StyledEvent } from "./MonthLayout.styled";
+import { Context } from "../../contextStore";
 
 interface EventProps {
     event: CalendarEvent;
@@ -14,6 +15,8 @@ export const EventInMonth: React.FC<EventProps> = ({
     index,
     onClick,
 }) => {
+    const { setModalVisibility, setSelectedEvent } = React.useContext(Context);
+
     if (index > 3) {
         return (
             <ShowMoreBtn
@@ -33,7 +36,13 @@ export const EventInMonth: React.FC<EventProps> = ({
             getEventTime(event).endTime +
             " ";
         return (
-            <StyledEvent role="button">
+            <StyledEvent
+                role="button"
+                onClick={() => {
+                    setSelectedEvent(event);
+                    setModalVisibility(true);
+                }}
+            >
                 <span className="month_table-event__time">{eventTiming}</span>
                 <span className="month_table-event__title">{event.title}</span>
             </StyledEvent>

@@ -70,4 +70,7 @@ export const StyledEvent = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    &:hover {
+        cursor: pointer;
+    }
 `;

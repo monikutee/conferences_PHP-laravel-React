@@ -9,7 +9,7 @@ interface CellProps {
     day: number;
 }
 export const Cell: React.FC<CellProps> = ({ cellDate, hour, day }) => {
-    const { setDisplayDate, setModalVisibility, events } =
+    const { setDisplayDate, setModalVisibility, events, user } =
         React.useContext(Context);
 
     const dateString = new Date(cellDate.setHours(hour)).toString();
@@ -18,7 +18,7 @@ export const Cell: React.FC<CellProps> = ({ cellDate, hour, day }) => {
         if (event.target instanceof HTMLTableCellElement) {
             if (event.target.dataset.date) {
                 setDisplayDate(new Date(event.target.dataset.date));
-                setModalVisibility(true);
+                if (user) setModalVisibility(true);
             }
         }
     }

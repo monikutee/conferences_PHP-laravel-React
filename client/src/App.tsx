@@ -5,9 +5,11 @@ import { Sidebar } from "./components/Sidebar/Sidebar";
 import { WeekLayout } from "./components/WeekLayout/WeekLayout";
 import { MonthLayout } from "./components/MonthLayout/MonthLayout";
 import { EventCreationModal } from "./components/EventCreationModal/EventCreationModal";
+import { Login } from "./components/Login";
 
 function Calendar() {
-    const { isWeekLayout, modalVisibility } = React.useContext(Context);
+    const { isWeekLayout, modalVisibility, loginVisibility } =
+        React.useContext(Context);
     return (
         <>
             <Navbar />
@@ -18,6 +20,7 @@ function Calendar() {
                     {!isWeekLayout ? <MonthLayout /> : null}
                 </div>
                 {modalVisibility ? <EventCreationModal /> : null}
+                {loginVisibility ? <Login /> : null}
             </div>
         </>
     );

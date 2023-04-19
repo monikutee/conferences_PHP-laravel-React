@@ -31,6 +31,7 @@ export const MiniCalendar = styled.div`
     width: 200px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
 `;
 
 export const Weekdays = styled.div`
