@@ -3,12 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import moment from "moment";
 import { Context } from "../../../contextStore";
-import {
-    SaveButton,
-    CloseButton,
-    UpdateButton,
-    DeleteButton,
-} from "../ModalButtons";
+import { CloseButton, ActionButton, DeleteButton } from "../ModalButtons";
 import { ConfirmationModal } from "../Confirmation";
 import {
     getYearMonthDayString,
@@ -26,8 +21,10 @@ import {
     StyledDescriptionWrap,
     ActionNav,
 } from "../Modals.styled";
+import { useTranslation } from "react-i18next";
 
 export const EventCreationModal: React.FC = () => {
+    const { t } = useTranslation();
     const {
         setModalVisibility,
         displayDate,
@@ -153,7 +150,7 @@ export const EventCreationModal: React.FC = () => {
                             type="text"
                             id="title"
                             name="title"
-                            placeholder="Title"
+                            placeholder={t("conference_calendar.title") ?? ""}
                             value={formik.values.title}
                             onChange={formik.handleChange}
                             disabled={isDisabled}
@@ -161,8 +158,7 @@ export const EventCreationModal: React.FC = () => {
                         {formik.touched.title &&
                             Boolean(formik.errors.title) && (
                                 <StyledError>
-                                    Title is required. Please complete this
-                                    field
+                                    {t("conference_calendar.title_error") ?? ""}
                                 </StyledError>
                             )}
                     </BasicInputWrap>
@@ -172,21 +168,24 @@ export const EventCreationModal: React.FC = () => {
                             type="text"
                             id="address"
                             name="address"
-                            placeholder="Address"
+                            placeholder={t("conference_calendar.address") ?? ""}
                             value={formik.values.address}
                             onChange={formik.handleChange}
                         />
                         {formik.touched.address &&
                             Boolean(formik.errors.address) && (
                                 <StyledError>
-                                    Title is required. Please complete this
-                                    field
+                                    {t("conference_calendar.address_error") ??
+                                        ""}
                                 </StyledError>
                             )}
                     </BasicInputWrap>
                     <DatePickerWrap>
                         <div className={`start`}>
-                            <label>Start date:</label>
+                            <label>
+                                {t("conference_calendar.start_date_label") ??
+                                    ""}
+                            </label>
                             <input
                                 type="date"
                                 className={`start`}
@@ -210,7 +209,9 @@ export const EventCreationModal: React.FC = () => {
                             />
                         </div>
                         <div className={`end`}>
-                            <label>End date:</label>
+                            <label>
+                                {t("conference_calendar.end_date_label") ?? ""}
+                            </label>
                             <input
                                 type="date"
                                 className={`end`}
@@ -235,7 +236,9 @@ export const EventCreationModal: React.FC = () => {
                     <StyledDescriptionWrap>
                         <textarea
                             id="description"
-                            placeholder="Description..."
+                            placeholder={
+                                t("conference_calendar.description") ?? ""
+                            }
                             name="description"
                             value={formik.values.description}
                             onChange={formik.handleChange}
@@ -244,8 +247,9 @@ export const EventCreationModal: React.FC = () => {
                         {formik.touched.description &&
                             Boolean(formik.errors.description) && (
                                 <StyledError>
-                                    Title is required. Please complete this
-                                    field
+                                    {t(
+                                        "conference_calendar.description_error"
+                                    ) ?? ""}
                                 </StyledError>
                             )}
                     </StyledDescriptionWrap>
@@ -254,7 +258,9 @@ export const EventCreationModal: React.FC = () => {
                             type="number"
                             id="participant_count"
                             name="participant_count"
-                            placeholder="Participant count"
+                            placeholder={
+                                t("conference_calendar.participant_count") ?? ""
+                            }
                             value={formik.values.participant_count}
                             onChange={formik.handleChange}
                             disabled={isDisabled}
@@ -268,13 +274,19 @@ export const EventCreationModal: React.FC = () => {
                     (formik.touched.end_time &&
                         Boolean(formik.errors.end_time) && (
                             <StyledError>
-                                Something is wrong with dates, mate
+                                {t("conference_calendar.dates_error") ?? ""}
                             </StyledError>
                         ))}
                 {isDisabled ? null : (
                     <ActionNav>
-                        <SaveButton />
-                        {selectedEvent && <UpdateButton />}
+                        <ActionButton
+                            label={t("conference_calendar.save") ?? "Save"}
+                        />
+                        {selectedEvent && (
+                            <ActionButton
+                                label={t("conference_calendar.update") ?? "Upd"}
+                            />
+                        )}
                         {selectedEvent && (
                             <DeleteButton handleClick={() => setPopup(true)} />
                         )}

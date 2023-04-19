@@ -1,4 +1,6 @@
 import React from "react";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 import { ContextProvider, Context } from "./contextStore";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Sidebar } from "./components/Sidebar/Sidebar";
@@ -28,14 +30,16 @@ function Calendar() {
 
 const App: React.FC<{ date: Date }> = ({ date }) => {
     return (
-        <ContextProvider
-            initialDisplayDate={date}
-            initialModalVisibility={false}
-            initialIsWeekLayout={true}
-            initialEventsArr={[]}
-        >
-            <Calendar />
-        </ContextProvider>
+        <I18nextProvider i18n={i18n}>
+            <ContextProvider
+                initialDisplayDate={date}
+                initialModalVisibility={false}
+                initialIsWeekLayout={true}
+                initialEventsArr={[]}
+            >
+                <Calendar />
+            </ContextProvider>
+        </I18nextProvider>
     );
 };
 

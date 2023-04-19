@@ -17,16 +17,8 @@ export const CloseButton: React.FC<CloseButtonProps> = (props) => {
     );
 };
 
-export const SaveButton: React.FC = () => {
-    return <button type="submit">Save</button>;
-};
-
-export const UpdateButton: React.FC = () => {
-    return (
-        <nav>
-            <button type="submit">Update</button>
-        </nav>
-    );
+export const ActionButton: React.FC<{ label: string }> = ({ label }) => {
+    return <button type="submit">{label}</button>;
 };
 
 export const DeleteButton: React.FC<{ handleClick: () => void }> = ({

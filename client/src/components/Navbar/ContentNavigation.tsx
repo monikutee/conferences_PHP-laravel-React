@@ -16,8 +16,10 @@ import {
 } from "./Navbar.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export const ContentNavigation: React.FC = () => {
+    const { t } = useTranslation();
     const { isWeekLayout, displayDate, setDisplayDate } =
         React.useContext(Context);
 
@@ -43,7 +45,7 @@ export const ContentNavigation: React.FC = () => {
                     setDisplayDate(new Date());
                 }}
             >
-                Today
+                {t("conference_calendar.today")}
             </TodayBtn>
             <MonthNav>
                 <MonthNavArrows

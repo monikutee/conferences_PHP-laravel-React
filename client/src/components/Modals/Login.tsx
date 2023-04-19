@@ -9,20 +9,17 @@ import {
     StyledForm,
     BasicInputWrap,
     StyledError,
+    ActionNav,
 } from "./Modals.styled";
+import { useTranslation } from "react-i18next";
 
 export const Login: React.FC = () => {
+    const { t } = useTranslation();
     const { setLoginVisibility, setUser } = React.useContext(Context);
 
     const validationSchema = yup.object({
-        email: yup
-            .string()
-            .email("Enter a valid email")
-            .required("Email is required"),
-        password: yup
-            .string()
-            .min(8, "Password should be of minimum 8 characters length")
-            .required("Password is required"),
+        email: yup.string().email().required(),
+        password: yup.string().required(""),
     });
 
     const formik = useFormik({
@@ -52,7 +49,6 @@ export const Login: React.FC = () => {
                 });
             } catch (error) {
                 alert("Error logging in");
-                closeForm();
             }
         },
     });
@@ -65,7 +61,6 @@ export const Login: React.FC = () => {
         <Backdrop>
             <StyledForm
                 onSubmit={formik.handleSubmit}
-                className="create-event_modal-content"
                 height="250px"
                 width="500px"
             >
@@ -80,7 +75,9 @@ export const Login: React.FC = () => {
                         onChange={formik.handleChange}
                     />
                     {formik.touched.email && Boolean(formik.errors.email) && (
-                        <StyledError>oopsie</StyledError>
+                        <StyledError>
+                            {t("conference_calendar.email_error")}
+                        </StyledError>
                     )}
                 </BasicInputWrap>
                 <BasicInputWrap>
@@ -94,17 +91,16 @@ export const Login: React.FC = () => {
                     />
                     {formik.touched.password &&
                         Boolean(formik.errors.password) && (
-                            <StyledError>oopsie</StyledError>
+                            <StyledError>
+                                {t("conference_calendar.required")}
+                            </StyledError>
                         )}
                 </BasicInputWrap>
-                <nav className="create-event_modal-save">
-                    <button
-                        className="create-event_modal-saveBtn"
-                        type="submit"
-                    >
-                        Prisijungti
+                <ActionNav>
+                    <button type="submit">
+                        {t("conference_calendar.login")}
                     </button>
-                </nav>
+                </ActionNav>
             </StyledForm>
         </Backdrop>
     );

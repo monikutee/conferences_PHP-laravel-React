@@ -3,8 +3,10 @@ import { CalendarNavigation } from "./CalendarNavigation";
 import { CalendarDays } from "./CalendarDays";
 import { Context } from "../../contextStore";
 import { MiniCalendar, Weekdays } from "./Sidebar.styled";
+import { useTranslation } from "react-i18next";
 
 export const Calendar: React.FC = () => {
+    const { t } = useTranslation();
     const { displayDate } = React.useContext(Context);
     const [displayMonthDate, setDisplayMonthDate] = React.useState(new Date());
 
@@ -19,13 +21,13 @@ export const Calendar: React.FC = () => {
                 setDisplayMonthDate={setDisplayMonthDate}
             />
             <Weekdays>
-                <div>M</div>
-                <div>T</div>
-                <div>W</div>
-                <div>T</div>
-                <div>F</div>
-                <div>S</div>
-                <div>S</div>
+                <div>{t("conference_calendar.monday_char")}</div>
+                <div>{t("conference_calendar.tuesday_char")}</div>
+                <div>{t("conference_calendar.wednesday_char")}</div>
+                <div>{t("conference_calendar.thursday_char")}</div>
+                <div>{t("conference_calendar.friday_char")}</div>
+                <div>{t("conference_calendar.saturday_char")}</div>
+                <div>{t("conference_calendar.sunday_char")}</div>
             </Weekdays>
             <CalendarDays
                 displayMonthDate={displayMonthDate}

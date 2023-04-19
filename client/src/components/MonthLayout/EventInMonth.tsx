@@ -3,6 +3,7 @@ import { CalendarEvent } from "./../../types";
 import { getEventTime } from "../../utils/layoutHelper";
 import { ShowMoreBtn, StyledEvent } from "./MonthLayout.styled";
 import { Context } from "../../contextStore";
+import { useTranslation } from "react-i18next";
 
 interface EventProps {
     event: CalendarEvent;
@@ -15,6 +16,7 @@ export const EventInMonth: React.FC<EventProps> = ({
     index,
     onClick,
 }) => {
+    const { t } = useTranslation();
     const { setModalVisibility, setSelectedEvent } = React.useContext(Context);
 
     if (index > 3) {
@@ -26,7 +28,7 @@ export const EventInMonth: React.FC<EventProps> = ({
                     onClick(e);
                 }}
             >
-                Show more events
+                {t("conference_calendar.show_more")}
             </ShowMoreBtn>
         );
     } else {
