@@ -35,7 +35,7 @@ export const Cell: React.FC<CellProps> = ({ cellDate, hour, day }) => {
                         <EventInWeek
                             event={event}
                             key={event.id.toString() + "week-event"}
-                            eventsFromStorage={events}
+                            events={events}
                             date={cellDate}
                         />
                     );

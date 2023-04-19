@@ -19,12 +19,27 @@ class ConferenceController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'address' => 'required',
         ]);
 
-        $conference = Conferences::create($request->all());
+        // Convert the datetime to the MySQL format
+        $start_date = new \DateTime($request->start_date);
+        $formattedStartDate = $start_date->format('Y-m-d H:i:s');
+
+        $end_date = new \DateTime($request->end_date);
+        $formattedEndDate = $end_date->format('Y-m-d H:i:s');
+
+        $conference = Conferences::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $formattedStartDate,
+            'end_date' => $formattedEndDate,
+            'address' => $request->address,
+            'participant_count' => $request->participant_count,
+        ]);
+
         return response()->json($conference, 201);
     }
 
@@ -38,12 +53,27 @@ class ConferenceController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'address' => 'required',
         ]);
 
-        $conference->update($request->all());
+        // Convert the datetime to the MySQL format
+        $start_date = new \DateTime($request->start_date);
+        $formattedStartDate = $start_date->format('Y-m-d H:i:s');
+
+        $end_date = new \DateTime($request->end_date);
+        $formattedEndDate = $end_date->format('Y-m-d H:i:s');
+
+        $conference->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $formattedStartDate,
+            'end_date' => $formattedEndDate,
+            'address' => $request->address,
+            'participant_count' => $request->participant_count,
+        ]);
+
         return response()->json($conference);
     }
 

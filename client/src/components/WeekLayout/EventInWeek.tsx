@@ -9,26 +9,26 @@ import {
 
 interface EventComponentProps {
     event: CalendarEvent;
-    eventsFromStorage: CalendarEvent[];
+    events: CalendarEvent[];
     date: Date;
 }
 
 export const EventInWeek: React.FC<EventComponentProps> = ({
     event,
-    eventsFromStorage,
+    events,
     date,
 }) => {
     let indexOfevent = 0;
-    const dayEvents = getEventsByDay(date, eventsFromStorage);
+    const dayEvents = getEventsByDay(date, events);
     sortEventsAndCountNeighbours(dayEvents).forEach((dayEvent) => {
         if (dayEvent.event.id === event.id) {
             indexOfevent = dayEvent.indexOfEvent;
         }
     });
-    const startHours = event.startDate.getHours();
-    const startMinutes = event.startDate.getMinutes();
-    const endHours = event.endDate.getHours();
-    const endMinutes = event.endDate.getMinutes();
+    const startHours = new Date(event.start_date).getHours();
+    const startMinutes = new Date(event.start_date).getMinutes();
+    const endHours = new Date(event.end_date).getHours();
+    const endMinutes = new Date(event.end_date).getMinutes();
     const position = getEventPosition(
         startHours,
         endHours,

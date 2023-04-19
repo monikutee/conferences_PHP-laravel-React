@@ -7,19 +7,12 @@ import { SaveButton, CloseButton } from "./ModalButtons";
 import {
     getYearMonthDayString,
     getTimeHourString,
-    padWithZero,
 } from "../../utils/dateHelper";
-import { EventDetails } from "./EventDetails";
-import { CalendarEvent, NewEvent } from "../../types";
+import apiFetch from "../../services/api";
 
 export const EventCreationModal: React.FC = () => {
-    const {
-        setModalVisibility,
-        displayDate,
-        setDisplayDate,
-        events,
-        setEvents,
-    } = React.useContext(Context);
+    const { setModalVisibility, displayDate, setDisplayDate } =
+        React.useContext(Context);
 
     const currentDate = new Date(displayDate);
     const initialEndTime = getTimeHourString(
@@ -28,6 +21,7 @@ export const EventCreationModal: React.FC = () => {
     const validationSchema = yup.object({
         title: yup.string().required("Title is required"),
         description: yup.string().required("Title is required"),
+        address: yup.string().required("start time cannot be empty"),
         start_date: yup.string().required("aa"),
         start_time: yup.string().required("start time cannot be empty"),
         end_time: yup
@@ -39,6 +33,7 @@ export const EventCreationModal: React.FC = () => {
                     moment(start_time, "HH:mm")
                 );
             }),
+
         participant_count: yup.number().nullable(),
     });
 
@@ -46,13 +41,14 @@ export const EventCreationModal: React.FC = () => {
         initialValues: {
             title: "",
             description: "",
+            address: "",
             start_date: getYearMonthDayString(displayDate),
             start_time: getTimeHourString(displayDate),
             end_time: initialEndTime,
             participant_count: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const event = {
                 title: values.title,
                 description: values.description,
@@ -61,8 +57,22 @@ export const EventCreationModal: React.FC = () => {
                 ),
                 end_date: new Date(values.start_date + " " + values.end_time),
                 participant_count: values.participant_count,
+                address: values.address,
             };
-            console.log(event);
+
+            Date.prototype.toJSON = function () {
+                return moment(this).format();
+            };
+            apiFetch("/conferences", {
+                method: "POST",
+                body: JSON.stringify(event),
+            }).then((res) => console.log(res, "DEBUG"));
+
+            // if (response) {
+            //     closeForm();
+            // } else {
+            //     alert("Error creating conference");
+            // }
         },
     });
 
@@ -91,6 +101,26 @@ export const EventCreationModal: React.FC = () => {
                         />
                         {formik.touched.title &&
                             Boolean(formik.errors.title) && (
+                                <span
+                                    className="error"
+                                    id="title-error-message"
+                                >
+                                    Title is required. Please complete this
+                                    field
+                                </span>
+                            )}
+                    </div>
+                    <div className="create-event_modal-event-title">
+                        <input
+                            type="text"
+                            className="create-event_modal-event-titleInput"
+                            id="address"
+                            name="address"
+                            value={formik.values.address}
+                            onChange={formik.handleChange}
+                        />
+                        {formik.touched.address &&
+                            Boolean(formik.errors.address) && (
                                 <span
                                     className="error"
                                     id="title-error-message"

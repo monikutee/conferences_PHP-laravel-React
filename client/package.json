@@ -46,7 +46,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://0.0.0.0:8000",
+  "proxy": "http://0.0.0.0:8000/api",
   "devDependencies": {
     "@types/styled-components": "^5.1.26"
   }

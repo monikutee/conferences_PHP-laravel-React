@@ -23,10 +23,10 @@ export function sortEventsAndCountNeighbours(arrayOfEvents: CalendarEvent[]): {
 }
 
 function isNeighbor(eventOne: CalendarEvent, eventTwo: CalendarEvent): boolean {
-    const startA = eventOne.startDate;
-    const endA = eventOne.endDate;
-    const startB = eventTwo.startDate;
-    const endB = eventTwo.endDate;
+    const startA = new Date(eventOne.start_date);
+    const endA = new Date(eventOne.end_date);
+    const startB = new Date(eventTwo.start_date);
+    const endB = new Date(eventTwo.end_date);
 
     const eventTwoStartsDuringOne =
         startA.getTime() <= startB.getTime() &&

@@ -23,10 +23,11 @@ export interface ModalProps {
 export interface CalendarEvent {
     id: string;
     title: string;
-    startDate: Date;
-    endDate: Date;
+    start_date: Date;
+    end_date: Date;
     description: string;
     participant_count: number;
+    address: string;
 }
 
 export interface CalendarEventAllStrings {

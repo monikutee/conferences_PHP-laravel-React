@@ -18,7 +18,7 @@ export const EventInMonth: React.FC<EventProps> = ({
         return (
             <ShowMoreBtn
                 role="button"
-                data-date={event.startDate.toString()}
+                data-date={event.start_date.toString()}
                 onClick={(e) => {
                     onClick(e);
                 }}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import apiFetch from "./services/api";
 
 export const Context = React.createContext({
     isWeekLayout: true,
@@ -41,13 +42,14 @@ export const ContextProvider: React.FC<ContexProps> = ({
     );
     const [isWeekLayout, setWeekLayout] = React.useState(initialIsWeekLayout);
 
-    // React.useEffect(() => {
-    //     if (!events.length) {
-    //         getEvents().then((res: any) => {
-    //             setEvents(res);
-    //         });
-    //     }
-    // }, []);
+    React.useEffect(() => {
+        apiFetch("/conferences", {
+            method: "GET",
+        }).then((res: any) => {
+            console.log(res, "AS");
+            setEvents(res);
+        });
+    }, [modalVisibility]);
 
     return (
         <Context.Provider

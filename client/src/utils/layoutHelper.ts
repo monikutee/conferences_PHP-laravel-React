@@ -64,7 +64,7 @@ export function compareEventsByStartDate(
     a: CalendarEvent,
     b: CalendarEvent
 ): number {
-    return a.startDate.getTime() - b.startDate.getTime();
+    return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
 }
 
 export function getEventsByHour(
@@ -72,11 +72,13 @@ export function getEventsByHour(
     events: CalendarEvent[]
 ): CalendarEvent[] {
     return getSortedEventsByCallback(events, (event: CalendarEvent) => {
-        const formatedSelectedDay = getYearMonthDayString(selectedDay);
-        const startDate = getYearMonthDayString(event.startDate);
+        const formatedSelectedDay = getYearMonthDayString(
+            new Date(selectedDay)
+        );
+        const startDate = getYearMonthDayString(new Date(event.start_date));
         return (
             formatedSelectedDay === startDate &&
-            selectedDay.getHours() === event.startDate.getHours()
+            selectedDay.getHours() === new Date(event.start_date).getHours()
         );
     });
 }
@@ -87,7 +89,7 @@ export function getEventsByDay(
 ): CalendarEvent[] {
     return getSortedEventsByCallback(events, (event: CalendarEvent) => {
         const formatedSelectedDay = getYearMonthDayString(selectedDay);
-        const startDate = getYearMonthDayString(event.startDate);
+        const startDate = getYearMonthDayString(event.start_date);
         return formatedSelectedDay === startDate;
     });
 }
@@ -103,10 +105,10 @@ export function getEventTime(event: CalendarEvent): {
     startTime: string;
     endTime: string;
 } {
-    const startHours = event.startDate.getHours();
-    const startMinutes = event.startDate.getMinutes();
-    const endHours = event.endDate.getHours();
-    const endMinutes = event.endDate.getMinutes();
+    const startHours = new Date(event.start_date).getHours();
+    const startMinutes = new Date(event.start_date).getMinutes();
+    const endHours = new Date(event.end_date).getHours();
+    const endMinutes = new Date(event.end_date).getMinutes();
 
     return {
         startTime: startHours + ":" + padWithZero(startMinutes),

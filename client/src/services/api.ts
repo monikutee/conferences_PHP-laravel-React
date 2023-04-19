@@ -1,5 +1,3 @@
-const API_BASE_URL = "http://localhost:8000/api";
-
 const apiFetch = async (url: string, options = {}) => {
     const token = localStorage.getItem("access_token");
 
@@ -8,13 +6,13 @@ const apiFetch = async (url: string, options = {}) => {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 
-    const response = await fetch(`${API_BASE_URL}${url}`, {
+    const response = await fetch(url, {
         ...options,
         headers,
     });
 
     if (!response.ok) {
-        throw new Error("Error fetching data");
+        alert(response.statusText);
     }
 
     return await response.json();
