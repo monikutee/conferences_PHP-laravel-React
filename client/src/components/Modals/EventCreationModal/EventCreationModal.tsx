@@ -9,13 +9,23 @@ import {
     UpdateButton,
     DeleteButton,
 } from "../ModalButtons";
+import { ConfirmationModal } from "../Confirmation";
 import {
     getYearMonthDayString,
     getTimeHourString,
 } from "../../../utils/dateHelper";
 import apiFetch from "../../../services/api";
 import { CalendarEvent } from "../../../types";
-import { Backdrop, StyledForm } from "../Modals.styled";
+import {
+    Backdrop,
+    StyledForm,
+    EventInputsWrap,
+    BasicInputWrap,
+    DatePickerWrap,
+    StyledError,
+    StyledDescriptionWrap,
+    ActionNav,
+} from "../Modals.styled";
 
 export const EventCreationModal: React.FC = () => {
     const {
@@ -134,14 +144,13 @@ export const EventCreationModal: React.FC = () => {
                 id="event-form"
                 onSubmit={formik.handleSubmit}
                 width="500px"
-                height="56%"
+                height="60%"
             >
                 <CloseButton onClick={closeForm} />
-                <div className="create-event_modal-event">
-                    <div className="create-event_modal-event-title">
+                <EventInputsWrap>
+                    <BasicInputWrap>
                         <input
                             type="text"
-                            className="create-event_modal-event-titleInput"
                             id="title"
                             name="title"
                             placeholder="Title"
@@ -151,20 +160,16 @@ export const EventCreationModal: React.FC = () => {
                         />
                         {formik.touched.title &&
                             Boolean(formik.errors.title) && (
-                                <span
-                                    className="error"
-                                    id="title-error-message"
-                                >
+                                <StyledError>
                                     Title is required. Please complete this
                                     field
-                                </span>
+                                </StyledError>
                             )}
-                    </div>
-                    <div className="create-event_modal-event-title">
+                    </BasicInputWrap>
+                    <BasicInputWrap>
                         <input
                             disabled={isDisabled}
                             type="text"
-                            className="create-event_modal-event-titleInput"
                             id="address"
                             name="address"
                             placeholder="Address"
@@ -173,25 +178,18 @@ export const EventCreationModal: React.FC = () => {
                         />
                         {formik.touched.address &&
                             Boolean(formik.errors.address) && (
-                                <span
-                                    className="error"
-                                    id="title-error-message"
-                                >
+                                <StyledError>
                                     Title is required. Please complete this
                                     field
-                                </span>
+                                </StyledError>
                             )}
-                    </div>
-                    <div className="create-event_modal-event-date">
-                        <div className={`create-event_modal-event-date-start`}>
-                            <label
-                                htmlFor={`create-event_modal-event-dateInput-start`}
-                            >
-                                Start date:
-                            </label>
+                    </BasicInputWrap>
+                    <DatePickerWrap>
+                        <div className={`start`}>
+                            <label>Start date:</label>
                             <input
                                 type="date"
-                                className={`create-event_modal-event-dateInput-start`}
+                                className={`start`}
                                 id="start_date"
                                 name="start_date"
                                 value={formik.values.start_date}
@@ -203,7 +201,7 @@ export const EventCreationModal: React.FC = () => {
                             />
                             <input
                                 type="time"
-                                className={`create-event_modal-event-timeInput-start`}
+                                className={`start`}
                                 id="start_time"
                                 name="start_time"
                                 value={formik.values.start_time}
@@ -211,15 +209,11 @@ export const EventCreationModal: React.FC = () => {
                                 disabled={isDisabled}
                             />
                         </div>
-                        <div className={`create-event_modal-event-date-end`}>
-                            <label
-                                htmlFor={`create-event_modal-event-dateInput-end`}
-                            >
-                                End date:
-                            </label>
+                        <div className={`end`}>
+                            <label>End date:</label>
                             <input
                                 type="date"
-                                className={`create-event_modal-event-dateInput-end`}
+                                className={`end`}
                                 value={formik.values.start_date}
                                 onChange={(e) => {
                                     formik.handleChange(e);
@@ -229,7 +223,7 @@ export const EventCreationModal: React.FC = () => {
                             />
                             <input
                                 type="time"
-                                className={`create-event_modal-event-timeInput-end`}
+                                className={`end`}
                                 id="end_time"
                                 name="end_time"
                                 value={formik.values.end_time}
@@ -237,8 +231,8 @@ export const EventCreationModal: React.FC = () => {
                                 disabled={isDisabled}
                             />
                         </div>
-                    </div>
-                    <div className="create-event_modal-event-description">
+                    </DatePickerWrap>
+                    <StyledDescriptionWrap>
                         <textarea
                             id="description"
                             placeholder="Description..."
@@ -249,19 +243,15 @@ export const EventCreationModal: React.FC = () => {
                         />
                         {formik.touched.description &&
                             Boolean(formik.errors.description) && (
-                                <span
-                                    className="error"
-                                    id="title-error-message"
-                                >
+                                <StyledError>
                                     Title is required. Please complete this
                                     field
-                                </span>
+                                </StyledError>
                             )}
-                    </div>
-                    <div className="create-event_modal-event-title">
+                    </StyledDescriptionWrap>
+                    <BasicInputWrap>
                         <input
                             type="number"
-                            className="create-event_modal-event-titleInput"
                             id="participant_count"
                             name="participant_count"
                             placeholder="Participant count"
@@ -269,50 +259,37 @@ export const EventCreationModal: React.FC = () => {
                             onChange={formik.handleChange}
                             disabled={isDisabled}
                         />
-                    </div>
-                </div>
+                    </BasicInputWrap>
+                </EventInputsWrap>
                 {(formik.touched.start_date &&
                     Boolean(formik.errors.start_date)) ||
                     (formik.touched.start_time &&
                         Boolean(formik.errors.start_time)) ||
                     (formik.touched.end_time &&
                         Boolean(formik.errors.end_time) && (
-                            <span className="error" id="date-error-message">
+                            <StyledError>
                                 Something is wrong with dates, mate
-                            </span>
+                            </StyledError>
                         ))}
                 {isDisabled ? null : (
-                    <nav className="create-event_modal-save">
+                    <ActionNav>
                         <SaveButton />
                         {selectedEvent && <UpdateButton />}
                         {selectedEvent && (
                             <DeleteButton handleClick={() => setPopup(true)} />
                         )}
-                    </nav>
+                    </ActionNav>
                 )}
             </StyledForm>
 
             {popup && selectedEvent && (
-                <div className="create-event_modal">
-                    <div className="popup">
-                        are u sure?
-                        <button
-                            className="create-event_modal-saveBtn"
-                            onClick={() => {
-                                setPopup(false);
-                                deleteEvent(selectedEvent);
-                            }}
-                        >
-                            proceed
-                        </button>
-                        <button
-                            className="create-event_modal-saveBtn"
-                            onClick={() => setPopup(false)}
-                        >
-                            cancel
-                        </button>
-                    </div>
-                </div>
+                <ConfirmationModal
+                    proceedHandler={() => {
+                        setPopup(false);
+                        deleteEvent(selectedEvent);
+                    }}
+                    cancelHandler={() => setPopup(false)}
+                />
             )}
         </Backdrop>
     );

@@ -9,18 +9,20 @@ export const ConfirmationModal: React.FC<{
         <Backdrop>
             <StyledConfirmation>
                 are u sure?
-                <button
-                    className="create-event_modal-saveBtn"
-                    onClick={proceedHandler}
-                >
-                    proceed
-                </button>
-                <button
-                    className="create-event_modal-saveBtn"
-                    onClick={cancelHandler}
-                >
-                    cancel
-                </button>
+                <div className="action">
+                    <button
+                        className="create-event_modal-saveBtn"
+                        onClick={proceedHandler}
+                    >
+                        proceed
+                    </button>
+                    <button
+                        className="create-event_modal-saveBtn"
+                        onClick={cancelHandler}
+                    >
+                        cancel
+                    </button>
+                </div>
             </StyledConfirmation>
         </Backdrop>
     );

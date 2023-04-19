@@ -4,7 +4,12 @@ import { Context } from "../../contextStore";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { CloseButton } from "./ModalButtons";
-import { Backdrop, StyledForm } from "./Modals.styled";
+import {
+    Backdrop,
+    StyledForm,
+    BasicInputWrap,
+    StyledError,
+} from "./Modals.styled";
 
 export const Login: React.FC = () => {
     const { setLoginVisibility, setUser } = React.useContext(Context);
@@ -32,9 +37,18 @@ export const Login: React.FC = () => {
                     method: "POST",
                     body: JSON.stringify(values),
                 }).then((response) => {
-                    localStorage.setItem("access_token", response.access_token);
-                    setUser(response.access_token);
-                    closeForm();
+                    console.log(response);
+                    if (response.error) {
+                        alert(response.error);
+                        closeForm();
+                    } else {
+                        localStorage.setItem(
+                            "access_token",
+                            response.access_token
+                        );
+                        setUser(response.access_token);
+                        closeForm();
+                    }
                 });
             } catch (error) {
                 alert("Error logging in");
@@ -57,38 +71,32 @@ export const Login: React.FC = () => {
             >
                 <CloseButton onClick={closeForm} />
 
-                <div className="create-event_modal-event-title">
+                <BasicInputWrap>
                     <input
                         id="email"
                         name="email"
                         placeholder="Email"
-                        className="create-event_modal-event-titleInput"
                         value={formik.values.email}
                         onChange={formik.handleChange}
                     />
                     {formik.touched.email && Boolean(formik.errors.email) && (
-                        <span className="error" id="title-error-message">
-                            oopsie
-                        </span>
+                        <StyledError>oopsie</StyledError>
                     )}
-                </div>
-                <div className="create-event_modal-event-title">
+                </BasicInputWrap>
+                <BasicInputWrap>
                     <input
                         id="password"
                         name="password"
                         type="password"
-                        className="create-event_modal-event-titleInput"
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         placeholder="Password"
                     />
                     {formik.touched.password &&
                         Boolean(formik.errors.password) && (
-                            <span className="error" id="title-error-message">
-                                oopsie
-                            </span>
+                            <StyledError>oopsie</StyledError>
                         )}
-                </div>
+                </BasicInputWrap>
                 <nav className="create-event_modal-save">
                     <button
                         className="create-event_modal-saveBtn"

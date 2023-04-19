@@ -1,6 +1,7 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { CloseForm } from "./Modals.styled";
 
 interface CloseButtonProps {
     onClick: () => void;
@@ -8,35 +9,22 @@ interface CloseButtonProps {
 
 export const CloseButton: React.FC<CloseButtonProps> = (props) => {
     return (
-        <div className="create-event_modal-close">
-            <nav>
-                <button
-                    type="button"
-                    className="create-event_modal-closeBtn"
-                    id="create-event-modal-close"
-                    onClick={props.onClick}
-                >
-                    x
-                </button>
-            </nav>
-        </div>
+        <CloseForm>
+            <button type="button" onClick={props.onClick}>
+                x
+            </button>
+        </CloseForm>
     );
 };
 
 export const SaveButton: React.FC = () => {
-    return (
-        <button type="submit" className="create-event_modal-saveBtn">
-            Save
-        </button>
-    );
+    return <button type="submit">Save</button>;
 };
 
 export const UpdateButton: React.FC = () => {
     return (
         <nav>
-            <button type="submit" className="create-event_modal-saveBtn">
-                Update
-            </button>
+            <button type="submit">Update</button>
         </nav>
     );
 };
@@ -46,11 +34,7 @@ export const DeleteButton: React.FC<{ handleClick: () => void }> = ({
 }) => {
     return (
         <nav>
-            <button
-                type="button"
-                className="create-event_modal-saveBtn"
-                onClick={handleClick}
-            >
+            <button type="button" onClick={handleClick}>
                 <FontAwesomeIcon icon={faTrash} />
             </button>
         </nav>

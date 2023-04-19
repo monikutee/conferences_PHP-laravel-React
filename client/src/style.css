@@ -37,6 +37,11 @@ body {
   color: black;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  width: 50px;
+  margin-left: -15px;
+  margin-right: -28px;
+}
 
 
 /* week layout starts here*/
@@ -206,120 +211,6 @@ table.week_table-layout {
   z-index: 10;
 }
 
-/* week layout ends here */
-
-/* create event modal start */
-
-
-
-
-.create-event_modal-close {
-  width: 100%;
-  height: 25px;
-  display: flex;
-  justify-content: flex-end;
-  background-color: whitesmoke;
-}
-.create-event_modal-closeBtn {
-  background: transparent;
-  border: 0;
-  color: #5f6368;
-  opacity: 1;
-  cursor: pointer;
-}
-
-.create-event_modal-event {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-.create-event_modal-event-title {
-  margin-top: 25px;
-  margin-left: 45px;
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.error {
-  color: red;
-  font-size: 14px;
-  display: block;
-}
-#title-error-message {
-  margin-top: 2px;
-  font-size: 14px;
-}
-#date-error-message {
-  margin-left: 43px;
-  margin-bottom: 5px;
-}
-.create-event_modal-event-titleInput {
-  border: 0;
-  border-bottom: 1px solid #5f6368;
-}
-.create-event_modal-event-date {
-  margin-top: 40px;
-  margin-left: 45px;
-  margin-right: 100px;
-  display: flex;
-  flex-direction: column;
-}
-.create-event_modal-event-date input {
-  border: 1px solid #5f6368;
-  border-radius: 6px;
-  background-color: transparent;
-}
-input[type="date"]::-webkit-calendar-picker-indicator {
-  width: 50px;
-  margin-left: -15px;
-  margin-right: -28px;
-}
-
-.create-event_modal-event-date-start {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.create-event_modal-event-date-end {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.create-event_modal-event-date-end label {
-  margin-right: 6px;
-}
-
-.create-event_modal-event-description {
-  margin-top: 20px;
-  margin-left: 45px;
-  margin-right: 20px;
-}
-textarea {
-  height: 151px;
-  width: 90%;
-  resize: none;
-}
-
-.create-event_modal-save {
-  width: 100%;
-  height: 60px;
-  background-color: whitesmoke;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-}
-.create-event_modal-saveBtn {
-  border: 1px solid;
-  background-color: transparent;
-  border-radius: 8px;
-  color: #5f6368;
-  margin-right: 20px;
-  cursor: pointer;
-}
 input:focus {
   outline: none;
 }
