@@ -12,9 +12,7 @@ export const Cell: React.FC<CellProps> = ({ cellDate, hour, day }) => {
     const { setDisplayDate, setModalVisibility, events } =
         React.useContext(Context);
 
-    const dateString = new Date(
-        cellDate.setHours(cellDate.getHours() + hour)
-    ).toString();
+    const dateString = new Date(cellDate.setHours(hour)).toString();
 
     function changeSelectedDate(event: React.MouseEvent<HTMLElement>) {
         if (event.target instanceof HTMLTableCellElement) {
