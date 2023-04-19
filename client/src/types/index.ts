@@ -12,7 +12,7 @@ export interface ModalProps {
     setSelectedEndTime: React.Dispatch<React.SetStateAction<string>>;
     title: string;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
-    description?: string;
+    description: string;
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     isTitleError: boolean;
     setTitleError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +25,8 @@ export interface CalendarEvent {
     title: string;
     startDate: Date;
     endDate: Date;
-    description?: string;
+    description: string;
+    participant_count: number;
 }
 
 export interface CalendarEventAllStrings {
@@ -33,7 +34,7 @@ export interface CalendarEventAllStrings {
     title: string;
     startDate: string;
     endDate: string;
-    description?: string;
+    description: string;
 }
 
 export interface NewEvent {
@@ -41,5 +42,6 @@ export interface NewEvent {
     selectedStartTime: string;
     selectedEndTime: string;
     title: string;
-    description?: string;
+    description: string;
+    participant_count: number;
 }
