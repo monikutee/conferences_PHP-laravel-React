@@ -1,29 +1,22 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import Register from "./components/register";
+import Login from "./components/login";
 
 function App() {
-  const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/example");
-        const data = await response.json();
-        setMessage(data.message);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        {message ? <p>{message}</p> : <p>Loading...</p>}
-      </header>
-    </div>
-  );
+    return (
+        <div
+            className="App
+"
+        >
+            <h1>Authentication Demo</h1>
+            <div>
+                <Register />
+            </div>
+            <div>
+                <Login />
+            </div>
+        </div>
+    );
 }
 
 export default App;
