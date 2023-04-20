@@ -32,4 +32,13 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    public function generate_token()
+    {
+        $token = csrf_token();
+
+        return response()->json([
+            'csrf_token' => $token,
+        ]);
+    }
 }

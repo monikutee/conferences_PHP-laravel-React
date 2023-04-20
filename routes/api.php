@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\ConferenceController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/generate_token', [AuthController::class, 'generate_token']);
 
-Route::apiResource('conferences', ConferenceController::class);
+Route::get('/conferences/{id}', [ConferenceController::class, 'show']);
+Route::get('/conferences', [ConferenceController::class, 'index']);
 
 Route::get('translations/{locale}', function ($locale) {
     $path = resource_path("lang/{$locale}");
@@ -24,4 +26,10 @@ Route::get('translations/{locale}', function ($locale) {
     }
 
     return response()->json($translations);
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/conferences', [ConferenceController::class, 'store']);
+    Route::put('/conferences/{id}', [ConferenceController::class, 'update']);
+    Route::delete('/conferences/{id}', [ConferenceController::class, 'destroy']);
 });
