@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\ConferenceController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/generate_token', [AuthController::class, 'generate_token']);
 
-Route::get('/conferences/{id}', [ConferenceController::class, 'show']);
 Route::get('/conferences', [ConferenceController::class, 'index']);
 
 Route::get('translations/{locale}', function ($locale) {
@@ -30,6 +29,7 @@ Route::get('translations/{locale}', function ($locale) {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/conferences', [ConferenceController::class, 'store']);
-    Route::put('/conferences/{id}', [ConferenceController::class, 'update']);
-    Route::delete('/conferences/{id}', [ConferenceController::class, 'destroy']);
+    Route::put('/conferences/{conference}', [ConferenceController::class, 'update']);
 });
+
+Route::delete('/conferences/{conference}', [ConferenceController::class, 'destroy']);

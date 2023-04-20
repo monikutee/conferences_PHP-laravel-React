@@ -32,6 +32,7 @@ export const EventCreationModal: React.FC = () => {
         selectedEvent,
         user,
         csrfToken,
+        setSelectedEvent,
     } = React.useContext(Context);
 
     const [popup, setPopup] = React.useState(false);
@@ -43,7 +44,7 @@ export const EventCreationModal: React.FC = () => {
         ? getTimeHourString(
               new Date(
                   new Date(selectedEvent.end_date).setHours(
-                      new Date(selectedEvent.end_date).getHours() + 1
+                      new Date(selectedEvent.end_date).getHours()
                   )
               )
           )
@@ -108,6 +109,7 @@ export const EventCreationModal: React.FC = () => {
             };
 
             if (selectedEvent) {
+                console.log(event);
                 apiFetch(`/conferences/${selectedEvent.id}`, {
                     method: "PUT",
                     headers: {
@@ -127,12 +129,17 @@ export const EventCreationModal: React.FC = () => {
     });
 
     function closeForm() {
+        setSelectedEvent(null);
         setModalVisibility(false);
     }
 
     const deleteEvent = async (event: CalendarEvent) => {
         await apiFetch(`/conferences/${event.id}`, {
             method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "X-CSRF-Token": csrfToken,
+            },
         });
         closeForm();
     };
@@ -156,11 +163,6 @@ export const EventCreationModal: React.FC = () => {
                         return;
                     }}
                 />
-                {formik.touched._token && Boolean(formik.errors._token) && (
-                    <StyledError>
-                        {t("conference_calendar.title_error") ?? ""}
-                    </StyledError>
-                )}
                 <EventInputsWrap>
                     <BasicInputWrap>
                         <input
@@ -296,12 +298,13 @@ export const EventCreationModal: React.FC = () => {
                         ))}
                 {isDisabled ? null : (
                     <ActionNav>
-                        <ActionButton
-                            label={t("conference_calendar.save") ?? "Save"}
-                        />
-                        {selectedEvent && (
+                        {selectedEvent ? (
                             <ActionButton
                                 label={t("conference_calendar.update") ?? "Upd"}
+                            />
+                        ) : (
+                            <ActionButton
+                                label={t("conference_calendar.save") ?? "Save"}
                             />
                         )}
                         {selectedEvent && (

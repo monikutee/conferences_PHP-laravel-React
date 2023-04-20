@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Conferences;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ConferenceController extends Controller
 {
@@ -42,11 +44,6 @@ class ConferenceController extends Controller
         return response()->json($conference, 201);
     }
 
-    public function show(Conferences $conference)
-    {
-        return response()->json($conference);
-    }
-
     public function update(Request $request, Conferences $conference)
     {
         $request->validate([
@@ -77,7 +74,10 @@ class ConferenceController extends Controller
 
     public function destroy(Conferences $conference)
     {
-        $conference->delete();
+        // Log::info($conference);
+
+        // $conference->delete();
+
         return response()->json(['message' => 'Conference deleted successfully']);
     }
 }

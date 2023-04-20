@@ -75,9 +75,6 @@ export const Login: React.FC = () => {
                         return;
                     }}
                 />
-                {formik.touched._token && Boolean(formik.errors._token) && (
-                    <StyledError>{formik.errors._token}</StyledError>
-                )}
                 <BasicInputWrap>
                     <input
                         id="email"

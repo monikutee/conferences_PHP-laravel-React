@@ -71,7 +71,7 @@ export const ContextProvider: React.FC<ContextProps> = ({
             console.log(response.csrf_token);
         });
         setUser(localStorage.getItem("access_token") ?? "");
-    }, []);
+    }, [csrfToken]);
 
     React.useEffect(() => {
         if (modalVisibility === false)
