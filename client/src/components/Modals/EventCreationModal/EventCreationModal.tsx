@@ -31,6 +31,7 @@ export const EventCreationModal: React.FC = () => {
         setDisplayDate,
         selectedEvent,
         user,
+        csrfToken,
     } = React.useContext(Context);
 
     const [popup, setPopup] = React.useState(false);
@@ -67,6 +68,7 @@ export const EventCreationModal: React.FC = () => {
             }),
 
         participant_count: yup.number().nullable(),
+        _token: yup.string(),
     });
 
     const formik = useFormik({
@@ -84,6 +86,7 @@ export const EventCreationModal: React.FC = () => {
             participant_count: selectedEvent
                 ? selectedEvent.participant_count ?? ""
                 : "",
+            _token: csrfToken,
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
@@ -96,6 +99,7 @@ export const EventCreationModal: React.FC = () => {
                 end_date: new Date(values.start_date + " " + values.end_time),
                 participant_count: values.participant_count,
                 address: values.address,
+                _token: values._token,
             };
 
             // eslint-disable-next-line
@@ -144,6 +148,19 @@ export const EventCreationModal: React.FC = () => {
                 height="60%"
             >
                 <CloseButton onClick={closeForm} />
+                <input
+                    hidden
+                    name="_token"
+                    value={formik.values._token}
+                    onChange={() => {
+                        return;
+                    }}
+                />
+                {formik.touched._token && Boolean(formik.errors._token) && (
+                    <StyledError>
+                        {t("conference_calendar.title_error") ?? ""}
+                    </StyledError>
+                )}
                 <EventInputsWrap>
                     <BasicInputWrap>
                         <input

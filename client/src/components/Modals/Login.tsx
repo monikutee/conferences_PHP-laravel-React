@@ -15,17 +15,20 @@ import { useTranslation } from "react-i18next";
 
 export const Login: React.FC = () => {
     const { t } = useTranslation();
-    const { setLoginVisibility, setUser } = React.useContext(Context);
+    const { setLoginVisibility, setUser, csrfToken } =
+        React.useContext(Context);
 
     const validationSchema = yup.object({
         email: yup.string().email().required(),
         password: yup.string().required(""),
+        _token: yup.string(),
     });
 
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
+            _token: csrfToken,
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -64,7 +67,17 @@ export const Login: React.FC = () => {
                 width="500px"
             >
                 <CloseButton onClick={closeForm} />
-
+                <input
+                    hidden
+                    name="_token"
+                    value={formik.values._token}
+                    onChange={() => {
+                        return;
+                    }}
+                />
+                {formik.touched._token && Boolean(formik.errors._token) && (
+                    <StyledError>{formik.errors._token}</StyledError>
+                )}
                 <BasicInputWrap>
                     <input
                         id="email"

@@ -34,6 +34,7 @@ export const Context = React.createContext({
     logout: () => {
         return;
     },
+    csrfToken: "",
 });
 
 interface ContextProps {
@@ -62,8 +63,13 @@ export const ContextProvider: React.FC<ContextProps> = ({
         null as unknown as CalendarEvent
     );
     const [user, setUser] = React.useState<string>("");
+    const [csrfToken, setCsrfToken] = React.useState<string>("");
 
     React.useEffect(() => {
+        apiFetch("/generate_token").then((response) => {
+            setCsrfToken(response.csrf_token);
+            console.log(response.csrf_token);
+        });
         setUser(localStorage.getItem("access_token") ?? "");
     }, []);
 
@@ -84,6 +90,7 @@ export const ContextProvider: React.FC<ContextProps> = ({
     return (
         <Context.Provider
             value={{
+                csrfToken,
                 user,
                 setUser,
                 selectedEvent,
