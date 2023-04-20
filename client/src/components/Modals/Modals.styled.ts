@@ -23,15 +23,16 @@ export const StyledForm = styled.form<{ width: string; height: string }>`
 export const StyledConfirmation = styled.div`
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 250px;
     background-color: rgb(168, 23, 23);
     color: white;
-    height: 130px;
+    height: 150px;
     margin: 25% auto;
     border-radius: 10px;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    text-align: center;
 
     .action {
         display: flex;
