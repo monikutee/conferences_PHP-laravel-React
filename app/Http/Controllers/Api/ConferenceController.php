@@ -58,7 +58,6 @@ class ConferenceController extends Controller
             'address' => 'required',
         ]);
 
-        // Convert the datetime to the MySQL format
         $start_date = new \DateTime($request->start_date);
         $formattedStartDate = $start_date->format('Y-m-d H:i:s');
 

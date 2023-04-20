@@ -8,12 +8,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConferenceController;
 
 
-Route::get('/example', function (Request $request) {
-    return response()->json(['message' => 'Hello from Laravel API!']);
-});
-
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:api')->get('/user', [AuthController::class, 'user']);
 
 Route::apiResource('conferences', ConferenceController::class);
 
